@@ -26,20 +26,20 @@ export default function MyProfile() {
             .catch((err) => alert(err.message))
     }, [])
 
-    // if(!user){
-    //     return (
-    //         <TailSpin
-    //         height="80"
-    //         width="80"
-    //         color="#4fa94d"
-    //         ariaLabel="tail-spin-loading"
-    //         radius="1"
-    //         wrapperStyle={{}}
-    //         wrapperClass=""
-    //         visible={true}
-    //     />
-    //     )
-    // }
+    if(!user){
+        return (
+            <TailSpin
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+        />
+        )
+    }
 
 
     return (
@@ -55,23 +55,21 @@ export default function MyProfile() {
 
                         <UserProfileInfoBody>
                             <ul>
-                                <li><span>5</span> publicações</li>
+                                <li><span>{user.posts.length}</span> publicações</li>
                                 <li><span>2.939</span> seguidores</li>
                                 <li><span>7.294 </span>seguindo</li>
                             </ul>
                         </UserProfileInfoBody>
 
                         <UserProfileBio>
-                           {user.biography}
+                           biography
                         </UserProfileBio>
 
                     </UserProfileInfo>
                 </UserProfileHeader>
 
                 <UserPosts>
-                    <UserPost></UserPost>
-                    <UserPost></UserPost>
-                    <UserPost></UserPost>
+                        {user.posts.map(post => <UserPost></UserPost>)}
                 </UserPosts>
             </>
     )

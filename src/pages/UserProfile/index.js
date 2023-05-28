@@ -38,8 +38,8 @@ const UserProfileHeader = styled.div`
     padding: 15px;
 
     img{
-        width: 168px;
-        height: 168px;
+        width: 150px;
+        height: 150px;
         border-radius: 100%;
         background-color: red;
     }

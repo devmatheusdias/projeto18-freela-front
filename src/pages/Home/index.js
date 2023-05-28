@@ -1,45 +1,68 @@
 import styled from "styled-components"
+import Siderbar from "../../components/Sidebar"
 
-export default function Post() {
+export default function Home() {
     return (
-        <PostContainer>
-            <PostHeader>
-                <img src="" alt="" />
-                <p>
-                    <span>
-                        tntsportsbr
-                    </span>
-                        - 17 min
-                </p>
-                <a>...</a>
-            </PostHeader>
+        <HomeContainer>
+            <Siderbar />
 
-            <PostBody></PostBody>
+            <PostsContainer>
+                <PostContainer>
+                    <PostHeader>
+                        <img src="" alt="" />
+                        <p>
+                            <span>
+                                tntsportsbr
+                            </span>
+                            - 17 min
+                        </p>
+                        <a>...</a>
+                    </PostHeader>
 
-            <PostFooter>
-                <ion-icon name="heart-outline"></ion-icon>
-                <ion-icon name="chatbubble-outline"></ion-icon>
-                <ion-icon name="paper-plane-outline"></ion-icon>
-                <ion-icon name="bookmark-outline"></ion-icon>
-            </PostFooter>
+                    <PostBody></PostBody>
 
-            <PostLikes>
-                curtido por luan_adriano e outras pessoas
-            </PostLikes>
+                    <PostFooter>
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                        <ion-icon name="paper-plane-outline"></ion-icon>
+                        <ion-icon name="bookmark-outline"></ion-icon>
+                    </PostFooter>
 
-            <PostDescription>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit, est veritatis itaque deserunt sit corporis laboriosam voluptate rerum facilis quas doloremque dicta vitae temporibus corrupti accusamus necessitatibus eligendi, architecto consequatur? ta vitae temporibus corr
-                necessitatibus eligendi, architecto consequatur? aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            </PostDescription>
+                    <PostLikes>
+                        curtido por luan_adriano e outras pessoas
+                    </PostLikes>
 
-            <span>Ver todos os 80 coméntarios</span>
+                    <PostDescription>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit, est veritatis itaque deserunt sit corporis laboriosam voluptate rerum facilis quas doloremque dicta vitae temporibus corrupti accusamus necessitatibus eligendi, architecto consequatur? ta vitae temporibus corr
+                        necessitatibus eligendi, architecto consequatur? aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    </PostDescription>
 
-            <PostInput placeholder="Adicione um comentário..."/>
+                    <span>Ver todos os 80 coméntarios</span>
 
-        </PostContainer>
+                    <PostInput placeholder="Adicione um comentário..." />
+
+                </PostContainer>
+
+            </PostsContainer>
+        </HomeContainer>
     )
 }
 
+const HomeContainer = styled.div`
+    display: flex;
+    box-sizing: border-box;
+    background-color: blue;
+    padding: 0;
+`
+
+const PostsContainer = styled.div`
+    background-color: brown;
+    width: 630px;
+    margin: 10px 64px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
 const PostContainer = styled.div`
     width: 470px;

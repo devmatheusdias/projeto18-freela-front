@@ -12,7 +12,7 @@ export default function Home() {
     const { token } = useContext(UserContext)
 
     // states
-    const [posts, setPosts] = useState()
+    const [user, setUser] = useState()
 
     useEffect(() => {
         const config = {
@@ -24,12 +24,12 @@ export default function Home() {
 
         axios.get("http://localhost:5000/home", config)
             .then((res) => {
-                setPosts(res.data)
+                setUser(res.data)
             })
             .catch((err) => alert(err.message))
     }, [])
 
-    if (!posts) {
+    if (!user) {
         return (
             <TailSpin
                 height="80"
@@ -48,11 +48,10 @@ export default function Home() {
     return (
         <HomeContainer>
             <UserProfileContainer>
-                <UserProfileImage />
-
+                <UserProfileImage src={user.photo}/>
                 <UserProfileInfos>
-                    <p>MAtheus</p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis provident quia mollitia, hic voluptas rerum pariatur itaque ut? Reiciendis harum repellendus voluptatem ea eaque deserunt cupiditate. Quas officia quae incidunt?</p>
+                    <p>{user.name}</p>
+                    <p>{user.biography}</p>
 
 
                     <UserProfileButtonsContainer>
@@ -67,17 +66,18 @@ export default function Home() {
                     </UserProfileButtonsContainer>
                 </UserProfileInfos>
 
-
             </UserProfileContainer>
 
             <Link to={'/newpost'}>New Post</Link>
-            {posts.map(post =>
+            <Link to={'/users'}>Pesquisar</Link>
+
+            {user.posts.map(post =>
                 <PostContainer>
                     <PostImage src={post.photo}/>
 
                     <PostLikes>
                         <ion-icon name="heart-outline"></ion-icon>
-                        <p> pessoas curtiram a sua foto!</p>
+                        <p> {post.likes} pessoas curtiram a sua foto!</p>
                         <p>{post.createdate}</p>
                     </PostLikes>
 
@@ -95,8 +95,8 @@ export default function Home() {
 const HomeContainer = styled.div`
     max-width: 1280px;
     margin: 0 auto;
-    background-color: blue;
     display: flex;
+    border: 1px solid black;
     flex-direction: column;
     box-sizing: border-box;
     padding: 0px 300px;

@@ -32,7 +32,7 @@ export default function Register() {
 
         axios.post('http://localhost:5000/register', { ...formData })
             .then(res => navigate('/login'))
-            .catch(err => alert('preencha os dados corretamente'))
+            .catch(err => console.log(err))
     }
 
     return (

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import Siderbar from "../../components/Sidebar"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { TailSpin } from "react-loader-spinner"
@@ -8,14 +8,37 @@ import { UserContext } from "../../contexts/UserContext"
 
 export default function User() {
 
-    const {id} = useParams()
+    const { id } = useParams()
+
     const parseId = Number(id)
+
+    const navigate = useNavigate()
 
     // context
     const { token } = useContext(UserContext)
 
     // states
     const [user, setUser] = useState()
+    const [iFollower, setIfollwer] = useState("seguir")
+    // functions
+
+    function follow(id) {
+        const parseId = Number(id)
+       
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+
+        }
+
+        axios.post(`http://localhost:5000/user/${parseId}`,{}, config)
+            .then((res) => {
+                navigate(`/user/${id}`)
+            })
+            .catch((err) => console.log(err.message))
+    }
+
 
     useEffect(() => {
         const config = {
@@ -28,10 +51,10 @@ export default function User() {
         axios.get(`http://localhost:5000/user/${parseId}`, config)
             .then((res) => {
                 setUser(res.data)
-                console.log(res.data)
             })
             .catch((err) => alert(err.message))
     }, [])
+
 
     if (!user) {
         return (
@@ -53,24 +76,27 @@ export default function User() {
         <HomeContainer>
             <UserProfileContainer>
                 <UserProfileImage />
-
+                    <img src={user.photo} alt="" />
                 <UserProfileInfos>
                     <p>{user.name}</p>
                     <p>{user.biography}</p>
 
 
                     <UserProfileButtonsContainer>
-                        <UserProfileButton>
-                            <p>Seguir</p>
-                        </UserProfileButton>
-                        
+                        {user.isFollower ?
+                            "Seguindo" :
+
+                            <UserProfileButton onClick={()=> follow(user.id)}>
+                                Seguir
+                            </UserProfileButton>
+                        }
                     </UserProfileButtonsContainer>
                 </UserProfileInfos>
             </UserProfileContainer>
-            
+
             {user.posts.map(post =>
                 <PostContainer>
-                    <PostImage src={post.photo}/>
+                    <PostImage src={post.photo} />
 
                     <PostLikes>
                         <ion-icon name="heart-outline"></ion-icon>
@@ -79,7 +105,7 @@ export default function User() {
                     </PostLikes>
 
                     <PostDescription>
-                       {post.description}
+                        {post.description}
                     </PostDescription>
                 </PostContainer>
             )}

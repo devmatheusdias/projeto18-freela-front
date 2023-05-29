@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { UserContext } from "../../contexts/UserContext"
 import { Link } from "react-router-dom"
 
-export default function Followers() {
+export default function Users() {
 
     // context
     const { token } = useContext(UserContext)
@@ -56,7 +56,6 @@ export default function Followers() {
                       <p>{follower.biography}</p>
                   </div>
   
-                  <button>Remover</button>
               </FollowerContainer>
             
             )}
@@ -65,7 +64,7 @@ export default function Followers() {
 }
 
 const FollowerContainer = styled.div`
-    width: 600px;
+    width: 400px;
     height: 68px;
     padding: 8px 16px;
     background-color: aqua;
@@ -75,7 +74,7 @@ const FollowerContainer = styled.div`
     margin-bottom: 15px;
 
     img{
-        width: 54px;
+        width: 64px;
         height: 54px;
         border-radius: 100%;
         background-color: red;
@@ -86,6 +85,7 @@ const FollowerContainer = styled.div`
         height: 52px;
         overflow: hidden;
         box-sizing: border-box;
+        margin-left: 15px;
 
         .username{
             font-weight: 600;
@@ -95,7 +95,7 @@ const FollowerContainer = styled.div`
 `
 
 const InputComponent = styled.input`
-    width: 600px;
+    width: 400px;
     height: 38px;
     margin-top: 15px;
     background-color: transparent;

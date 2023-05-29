@@ -7,6 +7,7 @@ import Button from "../../components/Button"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 export default function Register() {
 
@@ -14,49 +15,55 @@ export default function Register() {
     const navigate = useNavigate();
 
     // states
-    const [formData, setFormData] = useState({name: '', email: '', photo: '', biography: '', password: '', confirmPassword: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', photo: '', biography: '', password: '', confirmPassword: '' });
 
     // functions
-    function handleChange(e){
+    function handleChange(e) {
         e.preventDefault();
-        setFormData({...formData, [e.target.name]: e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    function register(e){
+    function register(e) {
         e.preventDefault();
 
         if (formData.password !== formData.confirmPassword) {
             return alert('A confirmação de senha não confere')
         }
 
-        axios.post('http://localhost:5000/register', {...formData})
-        .then(res => navigate('/login'))
-        .catch(err => alert('preencha os dados corretamente'))
+        axios.post('http://localhost:5000/register', { ...formData })
+            .then(res => navigate('/login'))
+            .catch(err => alert('preencha os dados corretamente'))
     }
 
     return (
-        <FormContainerComponent>
-            <FormComponent onSubmit={register}>
-                <h1>Cadastrar</h1>
-                <InputComponent type='text' placeholder='Nome' name="name" value={formData.name} onChange={handleChange}  required/>
-               
-                <InputComponent type='email' placeholder='E-mail' name="email" value={formData.email} onChange={handleChange}  required/>
-               
-                <InputComponent type='text' placeholder='Foto do Perfil' name="photo" value={formData.photo} onChange={handleChange}  required/>
-               
-                <TextArea placeholder='Biografia (até 200 caracters)' name="biography" value={formData.biography} onChange={handleChange}/>
-               
-                <InputComponent type='password' placeholder='Senha' name="password" value={formData.password} onChange={handleChange} required/>
-               
-                <InputComponent type='password' placeholder='Confirme a sua senha'  name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required/>
-               
-                <p>
-                    Ao se cadastrar, você concorda com nossos Termos, Política de Privacidade
-                    e Política de Cookies.
-                </p>
-                <ButtonComponent type="submit">Cadastrar</ButtonComponent>
-            </FormComponent>
-        </FormContainerComponent>
+        <>
+            <FormContainerComponent>
+                <FormComponent onSubmit={register}>
+                    <h1>Cadastrar</h1>
+                    <InputComponent type='text' placeholder='Nome' name="name" value={formData.name} onChange={handleChange} required />
+
+                    <InputComponent type='email' placeholder='E-mail' name="email" value={formData.email} onChange={handleChange} required />
+
+                    <InputComponent type='text' placeholder='Foto do Perfil' name="photo" value={formData.photo} onChange={handleChange} required />
+
+                    <TextArea placeholder='Biografia (até 200 caracters)' name="biography" value={formData.biography} onChange={handleChange} />
+
+                    <InputComponent type='password' placeholder='Senha' name="password" value={formData.password} onChange={handleChange} required />
+
+                    <InputComponent type='password' placeholder='Confirme a sua senha' name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+
+                    <p>
+                        Ao se cadastrar, você concorda com nossos Termos, Política de Privacidade
+                        e Política de Cookies.
+                    </p>
+                    <ButtonComponent type="submit">Cadastrar</ButtonComponent>
+                </FormComponent>
+            </FormContainerComponent>
+
+            <LoginLinkContainer>
+                <p>em uma conta? <Link to={'/login'}>Conecte-se</Link></p>
+            </LoginLinkContainer>
+        </>
     )
 }
 
@@ -96,4 +103,16 @@ const ButtonComponent = styled.button`
     color: white;
     cursor: pointer;
     margin-top: 15px;
+`
+
+const LoginLinkContainer = styled.div`
+width: 352px;
+height: 63px;
+box-sizing: border-box;
+padding: 10px 0px;
+margin-top: 10px;
+border: var(--border-components);
+display: flex;
+align-items: center;
+justify-content: center;
 `

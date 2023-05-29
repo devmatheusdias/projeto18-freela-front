@@ -1,25 +1,70 @@
+import axios from "axios"
+import { useContext, useEffect, useState } from "react"
+import { TailSpin } from "react-loader-spinner"
 import styled from "styled-components"
+import { UserContext } from "../../contexts/UserContext"
+import { Link } from "react-router-dom"
 
 export default function Followers() {
-    return (
 
+    // context
+    const { token } = useContext(UserContext)
+
+    // states
+    const [followers, setFollwers] = useState()
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+
+        }
+
+        axios.get("http://localhost:5000/followers", config)
+            .then((res) => {
+                setFollwers(res.data)
+            })
+            .catch((err) => alert(err.message))
+    }, [])
+
+    if (!followers) {
+        return (
+            <TailSpin
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+            />
+        )
+    }
+
+    return (
         <>
             <InputComponent type={'text'} placeholder={'Buscar...'} />
-            <FollowersContainer>
-                <img src="" alt="" />
 
-                <div>
-                    <p className="username">User name</p>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo ab, illo accusantium quasi vero unde doloribus vitae id tempora. Accusamus placeat nihil ea aliquid quae voluptate quas eligendi architecto ullam?</p>
-                </div>
-
-                <button>Remover</button>
-            </FollowersContainer>
+            {followers.map(follower => 
+                  <FollowerContainer>
+                  <img src="" alt="" />
+  
+                  <div>
+                      <p className="username"><Link to={`/user/${follower.id}`}>{follower.name}</Link></p>
+                      <p>{follower.biography}</p>
+                  </div>
+  
+                  <button>Remover</button>
+              </FollowerContainer>
+            
+            )}
         </>
     )
 }
 
-const FollowersContainer = styled.div`
+const FollowerContainer = styled.div`
     width: 600px;
     height: 68px;
     padding: 8px 16px;
@@ -27,6 +72,7 @@ const FollowersContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 15px;
 
     img{
         width: 54px;
@@ -49,11 +95,11 @@ const FollowersContainer = styled.div`
 `
 
 const InputComponent = styled.input`
-    width: 631px;
+    width: 600px;
     height: 38px;
     margin-top: 15px;
     background-color: transparent;
     padding: 0px 15px;
-    box-sizing: border-box;
+    margin-bottom: 15px;
     border: var(--border-components);
 `

@@ -1,18 +1,21 @@
 import styled from "styled-components"
 import Siderbar from "../../components/Sidebar"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import { TailSpin } from "react-loader-spinner"
 import { UserContext } from "../../contexts/UserContext"
 
-export default function Home() {
+export default function User() {
+
+    const {id} = useParams()
+    const parseId = Number(id)
 
     // context
     const { token } = useContext(UserContext)
 
     // states
-    const [posts, setPosts] = useState()
+    const [user, setUser] = useState()
 
     useEffect(() => {
         const config = {
@@ -22,14 +25,15 @@ export default function Home() {
 
         }
 
-        axios.get("http://localhost:5000/home", config)
+        axios.get(`http://localhost:5000/user/${parseId}`, config)
             .then((res) => {
-                setPosts(res.data)
+                setUser(res.data)
+                console.log(res.data)
             })
             .catch((err) => alert(err.message))
     }, [])
 
-    if (!posts) {
+    if (!user) {
         return (
             <TailSpin
                 height="80"
@@ -51,27 +55,20 @@ export default function Home() {
                 <UserProfileImage />
 
                 <UserProfileInfos>
-                    <p>MAtheus</p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis provident quia mollitia, hic voluptas rerum pariatur itaque ut? Reiciendis harum repellendus voluptatem ea eaque deserunt cupiditate. Quas officia quae incidunt?</p>
+                    <p>{user.name}</p>
+                    <p>{user.biography}</p>
 
 
                     <UserProfileButtonsContainer>
                         <UserProfileButton>
-                            <Link to={'/followers'}>Ver seguidores</Link>
-                        </UserProfileButton>
-
-                        <UserProfileButton>
-                            <Link>Ver quem eu sigo</Link>
+                            <p>Seguir</p>
                         </UserProfileButton>
                         
                     </UserProfileButtonsContainer>
                 </UserProfileInfos>
-
-
             </UserProfileContainer>
-
-            <Link to={'/newpost'}>New Post</Link>
-            {posts.map(post =>
+            
+            {user.posts.map(post =>
                 <PostContainer>
                     <PostImage src={post.photo}/>
 
@@ -86,8 +83,6 @@ export default function Home() {
                     </PostDescription>
                 </PostContainer>
             )}
-
-
         </HomeContainer>
     )
 }

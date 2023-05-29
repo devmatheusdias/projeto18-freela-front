@@ -1,52 +1,60 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { UserContext} from "../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Login() {
 
-    const {setToken} = useContext(UserContext)
+    const { setToken } = useContext(UserContext)
 
     // navigate
     const navigate = useNavigate();
 
     // states
-    const [formData, setFormData] = useState({email: '', password: ''});
+    const [formData, setFormData] = useState({ email: '', password: '' });
 
     // functions
-    function handleChange(e){
+    function handleChange(e) {
         e.preventDefault();
-        setFormData({...formData, [e.target.name]: e.target.value})
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    function login(e){
+    function login(e) {
         e.preventDefault()
 
-        axios.post("http://localhost:5000/login", {...formData})
-        .then( res => {
-            setToken(res.data)
-            console.log(res.data)
-            setTimeout(() => {
-                navigate('/home')
-            }, 3000);
-        })
-        .catch(err => alert('preencha os dados corretamente'))
+        axios.post("http://localhost:5000/login", { ...formData })
+            .then(res => {
+                setToken(res.data)
+                console.log(res.data)
+                setTimeout(() => {
+                    navigate('/home')
+                }, 3000);
+            })
+            .catch(err => alert('preencha os dados corretamente'))
 
     }
 
     return (
-        <FormContainerComponent>
-            <FormComponent onSubmit={login}>
-                <h1>Login</h1>
-                <InputComponent type='email' placeholder='E-mail' name="email" onChange={handleChange} value={formData.email} required/>
+        <>
+            <FormContainerComponent>
+                <FormComponent onSubmit={login}>
+                    <h1>Login</h1>
+                    <InputComponent type='email' placeholder='E-mail' name="email" onChange={handleChange} value={formData.email} required />
 
-                <InputComponent type='password' placeholder='Senha' name="password" onChange={handleChange} value={formData.password} required/>
-                
-                <ButtonComponent type="submit">Entrar</ButtonComponent>
-                <a href="#">Esqueceu a senha?</a>
-            </FormComponent>
-        </FormContainerComponent>
+                    <InputComponent type='password' placeholder='Senha' name="password" onChange={handleChange} value={formData.password} required />
+
+                    <ButtonComponent type="submit">Entrar</ButtonComponent>
+                    <a href="#">Esqueceu a senha?</a>
+                </FormComponent>
+            </FormContainerComponent>
+
+            <RegisterLinkContainer>
+                <p>Não tem uma conta? <Link to={'/register'}>Cadastre-se</Link></p>
+            </RegisterLinkContainer>
+        </>
+
+
     )
 }
 
@@ -82,4 +90,16 @@ const ButtonComponent = styled.button`
     color: white;
     margin-top: 15px;
     cursor: pointer;
+`
+
+const RegisterLinkContainer = styled.div`
+width: 352px;
+height: 63px;
+box-sizing: border-box;
+padding: 10px 0px;
+margin-top: 10px;
+border: var(--border-components);
+display: flex;
+align-items: center;
+justify-content: center;
 `
